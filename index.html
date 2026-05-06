@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>yamijpg — a personal photo journal</title>
+<meta name="description" content="A personal photography journal. No social media — just pictures, made with care."/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/style.css"/>
+<!-- EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init('Hn0ZYi8BQIJnryeUF');</script>
+</head>
+<body>
+
+<div id="main-site">
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#top">yami<span>jpg</span></a>
+  <div class="nav-r">
+    <ul class="nav-links">
+      <li><a href="#latest">Latest</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#subscribe">Subscribe</a></li>
+      <li><a href="#guestbook">Guestbook</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="mode-btn" id="mode-btn" onclick="toggleMode()">&#9790; Dark</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="hero-wrap">
+  <img class="hero-img" id="hero-img" src="" alt="featured photo"/>
+  <div class="hero-overlay">
+    <div class="hero-tag" id="hero-tag"></div>
+    <div class="hero-cap" id="hero-cap"></div>
+    <div class="hero-date" id="hero-date"></div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div class="intro" id="top">
+  <div class="intro-name">yami<span>jpg</span></div>
+  <div class="intro-sub">a personal photo journal</div>
+  <p class="intro-bio">Just someone with a camera and an eye for <strong>moments worth keeping.</strong> No social media &mdash; just pictures, made with care, shared here.</p>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-n" id="s-photos">0</div><div class="stat-l">Photos</div></div>
+  <div class="stat"><div class="stat-n" id="s-tags">0</div><div class="stat-l">Tags</div></div>
+  <div class="stat"><div class="stat-n" id="s-likes">0</div><div class="stat-l">Likes</div></div>
+  <div class="stat"><div class="stat-n" id="s-subs">0</div><div class="stat-l">Subscribers</div></div>
+</div>
+
+<!-- LATEST -->
+<section class="sec" id="latest">
+  <div class="sec-h">
+    <h2 class="sec-title">Latest Photos</h2>
+    <div class="sec-line"></div>
+    <div class="sec-badge" id="feed-badge">0</div>
+  </div>
+  <div class="feed" id="feed"></div>
+</section>
+
+<!-- GALLERY -->
+<section class="sec" id="gallery">
+  <div class="sec-h">
+    <h2 class="sec-title">All Photos</h2>
+    <div class="sec-line"></div>
+    <div class="sec-badge" id="gal-badge">0</div>
+  </div>
+  <div class="tag-row" id="tag-row"></div>
+  <div class="gal" id="gal"></div>
+</section>
+
+<!-- SUBSCRIBE -->
+<section class="sec" id="subscribe">
+  <div class="sec-h"><h2 class="sec-title">Stay in the Loop</h2><div class="sec-line"></div></div>
+  <div class="subscribe-box">
+    <div class="sub-title">Get notified when I post something new.</div>
+    <p class="sub-desc">No spam, no algorithms — just a heads-up when there's something new to see. Subscribe with your email or phone number.</p>
+    <div class="sub-tabs">
+      <button class="sub-tab on" id="sub-tab-email" onclick="swSubTab('email')">&#9993; Email</button>
+      <button class="sub-tab" id="sub-tab-phone" onclick="swSubTab('phone')">&#128241; Phone</button>
+    </div>
+    <div id="sub-email-form">
+      <div class="sub-row">
+        <input type="email" id="sub-email-input" placeholder="your@email.com" autocomplete="email"/>
+        <button class="btn" onclick="doSubscribe('email')">Subscribe</button>
+      </div>
+    </div>
+    <div id="sub-phone-form" style="display:none">
+      <div class="sub-row">
+        <input type="tel" id="sub-phone-input" placeholder="+1 (555) 000-0000" autocomplete="tel"/>
+        <button class="btn" onclick="doSubscribe('phone')">Subscribe</button>
+      </div>
+    </div>
+    <div class="ok" id="sub-ok">&#10003; You're subscribed! You'll hear from me when I post.</div>
+    <div class="err-msg" id="sub-err">Please enter a valid email or phone number.</div>
+    <div class="err-msg" id="sub-dup">You're already subscribed with that address.</div>
+    <p class="sub-notice">&#128274; Your subscription is stored in this browser and a notification is sent to the site owner. No automated emails are sent to subscribers from this page.</p>
+  </div>
+</section>
+
+<!-- GUESTBOOK -->
+<section class="sec" id="guestbook">
+  <div class="sec-h">
+    <h2 class="sec-title">Guestbook</h2>
+    <div class="sec-line"></div>
+    <div class="sec-badge" id="gb-badge">0</div>
+  </div>
+  <p style="font-size:.88rem;font-style:italic;color:var(--muted);margin-bottom:20px;">Sign in and leave a note. Say hi, share a thought — this is a space for that.</p>
+  <div class="gb-list" id="gb-list"></div>
+  <div class="gb-form">
+    <div class="gb-form-title">Leave your mark</div>
+    <div class="field"><label>Your name</label><input type="text" id="gb-name" autocomplete="name" placeholder="What should I call you?"/></div>
+    <div class="field"><label>Your message</label><textarea id="gb-msg" rows="3" placeholder="Say something&hellip;"></textarea></div>
+    <button class="btn" onclick="postGuestbook()">Sign the Guestbook</button>
+    <div class="ok" id="gb-ok">&#10003; Your note has been added. Thank you!</div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="sec" id="contact">
+  <div class="sec-h"><h2 class="sec-title">Get in Touch</h2><div class="sec-line"></div></div>
+  <p class="contact-intro">No social media, no DMs &mdash; just <strong>this little corner of the internet.</strong> If something I shot moved you, drop me a message.</p>
+  <div class="field"><label>Name</label><input id="c-name" type="text" autocomplete="name" placeholder="Your name"/></div>
+  <div class="field"><label>Email</label><input id="c-email" type="email" autocomplete="email" placeholder="Your email (optional)"/></div>
+  <div class="field"><label>Message</label><textarea id="c-msg" rows="4" placeholder="Say hi&hellip;"></textarea></div>
+  <button class="btn" id="c-send-btn" onclick="sendMsg()">Send Message</button>
+  <div class="ok" id="c-ok">&#10003; Sent — I'll get back to you!</div>
+  <div class="err-msg" id="c-err">Something went wrong. Please try again.</div>
+</section>
+
+<footer>
+  <div class="f-brand" id="f-brand">yami<span>jpg</span></div>
+  <div class="f-note">&copy; yamijpg &mdash; all rights reserved</div>
+</footer>
+
+</div><!-- /main-site -->
+
+<!-- LIGHTBOX -->
+<div class="lb" id="lb">
+  <div class="lb-x" onclick="closeLb()">&#x2715; close</div>
+  <img class="lb-img" id="lb-img" src="" alt=""/>
+  <div class="lb-info">
+    <div class="lb-cap" id="lb-cap"></div>
+    <div class="lb-tag" id="lb-tag"></div>
+  </div>
+  <div class="lb-nav">
+    <button onclick="lbPrev()">&#8592; Prev</button>
+    <button onclick="lbNext()">Next &#8594;</button>
+  </div>
+</div>
+
+<!-- ADMIN OVERLAY -->
+<div class="adm-overlay" id="adm-overlay">
+
+  <!-- LOGIN -->
+  <div class="adm-login-screen" id="adm-login-screen">
+    <div class="adm-login-card">
+      <div class="adm-login-icon">&#128247;</div>
+      <div class="adm-login-logo">yami<span>jpg</span></div>
+      <div class="adm-login-sub">Admin Dashboard</div>
+      <div class="field">
+        <label>Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="adm-pw" placeholder="Enter password" autocomplete="current-password"/>
+          <button class="pw-eye" onclick="togglePwEye('adm-pw')" title="Show/hide password">&#128065;</button>
+        </div>
+      </div>
+      <div class="err-msg" id="adm-err">Incorrect password. Try again.</div>
+      <button class="btn" style="width:100%;margin-top:8px;text-align:center" onclick="checkPw()">Sign In &#8594;</button>
+      <button class="btn btn-outline btn-sm" style="width:100%;margin-top:10px;text-align:center" onclick="closeAdm()">&#8592; Back to site</button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="adm-dashboard" id="adm-dashboard">
+    <div class="adm-sidebar">
+      <div class="adm-sidebar-logo">
+        <a class="logo" href="#">yami<span>jpg</span></a>
+        <div class="adm-sidebar-sub">Admin Dashboard</div>
+      </div>
+      <div class="adm-sidebar-label">Navigation</div>
+      <div class="adm-nav">
+        <button class="adm-nav-item on" id="anav-overview"     onclick="swAdmPane('overview')">    <span class="icon">&#128200;</span>Overview</button>
+        <button class="adm-nav-item"    id="anav-upload"       onclick="swAdmPane('upload')">      <span class="icon">&#128247;</span>Upload Photo</button>
+        <button class="adm-nav-item"    id="anav-manage"       onclick="swAdmPane('manage')">      <span class="icon">&#128444;</span>Manage Posts</button>
+        <button class="adm-nav-item"    id="anav-subscribers"  onclick="swAdmPane('subscribers')"> <span class="icon">&#128276;</span>Subscribers</button>
+        <button class="adm-nav-item"    id="anav-guestbook"    onclick="swAdmPane('guestbook')">   <span class="icon">&#128209;</span>Guestbook</button>
+      </div>
+      <div class="adm-sidebar-foot">
+        <button class="btn btn-outline btn-sm" style="width:100%;text-align:center" onclick="closeAdm()">&#8592; View Site</button>
+        <button class="btn btn-red btn-sm"     style="width:100%;text-align:center;margin-top:8px" onclick="doLogout()">Log Out</button>
+      </div>
+    </div>
+
+    <div class="adm-content">
+
+      <!-- OVERVIEW -->
+      <div class="adm-pane on" id="pane-overview">
+        <div class="adm-page-title">Overview</div>
+        <div class="dash-grid">
+          <div class="dash-card"><div class="dash-card-num" id="d-photos">0</div><div class="dash-card-label">Total Photos</div></div>
+          <div class="dash-card"><div class="dash-card-num" id="d-likes">0</div><div class="dash-card-label">Total Likes</div></div>
+          <div class="dash-card"><div class="dash-card-num" id="d-coms">0</div><div class="dash-card-label">Comments</div></div>
+          <div class="dash-card"><div class="dash-card-num" id="d-subs">0</div><div class="dash-card-label">Subscribers</div></div>
+          <div class="dash-card"><div class="dash-card-num" id="d-gb">0</div><div class="dash-card-label">Guestbook</div></div>
+          <div class="dash-card"><div class="dash-card-num" id="d-views">0</div><div class="dash-card-label">Total Views</div></div>
+        </div>
+        <p class="adm-hint">Welcome back. Use the sidebar to manage your journal.</p>
+      </div>
+
+      <!-- UPLOAD -->
+      <div class="adm-pane" id="pane-upload">
+        <div class="adm-page-title">Upload a Photo</div>
+        <div class="upload-grid">
+          <div class="uz">
+            <input type="file" accept="image/*" id="fi" onchange="prevFile(this)"/>
+            <div class="uz-lbl" id="uz-lbl">&#128247; Drop or click to choose &mdash; <span>browse</span></div>
+            <img class="uz-prev" id="uz-prev"/>
+          </div>
+          <div class="field"><label>Caption *</label><textarea id="up-cap" rows="4" placeholder="Write something about this shot&hellip;"></textarea></div>
+          <div class="field"><label>Tag / Category</label><input type="text" id="up-tag" placeholder="e.g. Urban, Nature, Street&hellip;"/></div>
+          <div class="field"><label>Camera</label><input type="text" id="up-cam" placeholder="e.g. Sony A7III"/></div>
+          <div class="field"><label>Lens / Mode</label><input type="text" id="up-lens" placeholder="e.g. 35mm f/1.8"/></div>
+          <div class="field"><label>Shutter Speed</label><input type="text" id="up-shutter" placeholder="e.g. 1/250s"/></div>
+          <div class="field"><label>ISO</label><input type="text" id="up-iso" placeholder="e.g. ISO 400"/></div>
+          <div class="field"><label>Pin as featured hero?</label><select id="up-feat"><option value="0">No</option><option value="1">Yes — show at top</option></select></div>
+          <div class="field"><label>Comments</label><select id="up-com"><option value="1">Open</option><option value="0">Closed</option></select></div>
+        </div>
+        <div class="upload-actions">
+          <button class="btn" id="up-btn" onclick="doUpload()">Post Photo &#8594;</button>
+          <div class="ok"      id="up-ok"  style="margin-top:0">&#10003; Posted successfully!</div>
+          <div class="err-msg" id="up-err" style="margin-top:0">Please select a photo and add a caption.</div>
+        </div>
+      </div>
+
+      <!-- MANAGE -->
+      <div class="adm-pane" id="pane-manage">
+        <div class="adm-page-title">Manage Posts</div>
+        <table class="posts-table">
+          <thead><tr><th>Photo</th><th>Caption</th><th>Tag</th><th>Date</th><th>Actions</th></tr></thead>
+          <tbody id="posts-tbody"></tbody>
+        </table>
+      </div>
+
+      <!-- SUBSCRIBERS -->
+      <div class="adm-pane" id="pane-subscribers">
+        <div class="adm-page-title">Subscribers</div>
+        <p class="adm-hint" style="margin-bottom:18px">People who signed up to be notified when you post. Reach out to them manually when you have something new.</p>
+        <div class="sub-dash-list" id="sub-dash-list"></div>
+      </div>
+
+      <!-- GUESTBOOK ADMIN -->
+      <div class="adm-pane" id="pane-guestbook">
+        <div class="adm-page-title">Guestbook Entries</div>
+        <div id="adm-gb-list"></div>
+      </div>
+
+    </div><!-- /adm-content -->
+  </div><!-- /adm-dashboard -->
+</div><!-- /adm-overlay -->
+
+<script src="js/app.js"></script>
+</body>
+</html>
