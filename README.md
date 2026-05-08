@@ -44,7 +44,7 @@ yamijpg/
 1. Push this repo to GitHub
 2. Go to repo **Settings → Pages**
 3. Source: **Deploy from a branch → main → / (root)**
-4. Save — your site will be live at `https://YOUR-USERNAME.github.io/yamijpg`
+4. Save — your site will be live at `https://yamipng.github.io/yamijpg`
 
 ## Changing the Admin Password
 
