@@ -4,7 +4,7 @@ A personal photography journal. No social media — just pictures, made with car
 
 ## Live Site
 
-Hosted via GitHub Pages at `https://YOUR-USERNAME.github.io/yamijpg`
+Hosted via GitHub Pages at `https://yamipng.github.io/yamijpg`
 
 ## Features
 
